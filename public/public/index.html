@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MATCHDAY PRO AI</title>
+</head>
+<body>
+  <h1>⚽ MATCHDAY PRO AI</h1>
+  <p>Welcome to your AI Football Prediction App!</p>
+
+  <h2>Today's Matches</h2>
+  <div id="matches">
+    Loading matches...
+  </div>
+
+  <script>
+    fetch("/api")
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("matches").innerHTML =
+          "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+      })
+      .catch(() => {
+        document.getElementById("matches").innerHTML =
+          "Unable to load football data.";
+      });
+  </script>
+</body>
+</html>

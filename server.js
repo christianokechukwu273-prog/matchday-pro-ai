@@ -23,22 +23,15 @@ app.listen(PORT, () => {
 app.get("/fixtures", async (req, res) => {
   try {
     const response = await axios.get(
-      "https://v3.football.api-sports.io/fixtures?date=2026-07-11", 
-      {
-        headers: {
-          "x-apisports-key": process.env.API_KEY
-        }
-      }
+      "https://www.thesportsdb.com/api/v2/json/123/livescore"
     );
 
     res.json(response.data);
-
   } catch (error) {
     console.error(error.response?.data || error.message);
 
     res.status(500).json({
-      error: "Failed to fetch fixtures"
+      error: "Failed to fetch data"
     });
   }
 });
-   

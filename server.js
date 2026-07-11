@@ -21,8 +21,24 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 app.get("/fixtures", async (req, res) => {
-  res.json({
-    message: "Fixtures endpoint is working!",
-    matches: []
-  });
+  try {
+    const response = await axios.get(
+      "https://v3.football.api-sports.io/fixtures?next=10",
+      {
+        headers: {
+          "x-apisports-key": process.env.API_KEY
+        }
+      }
+    );
+
+    res.json(response.data);
+
+  } catch (error) {
+    console.error(error.response?.data || error.message);
+
+    res.status(500).json({
+      error: "Failed to fetch fixtures"
+    });
+  }
 });
+   

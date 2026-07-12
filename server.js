@@ -23,7 +23,7 @@ app.listen(PORT, () => {
 app.get("/fixtures", async (req, res) => {
   try {
     const response = await axios.get(
-      "https://www.thesportsdb.com/api/v2/json/123/livescore"
+      "https://www.thesportsdb.com/api/v1/json/123/eventsnextleague.php?id=4328"
     );
 
     res.json(response.data);
@@ -31,7 +31,7 @@ app.get("/fixtures", async (req, res) => {
     console.error(error.response?.data || error.message);
 
     res.status(500).json({
-      error: "Failed to fetch data"
+      error: "Failed to fetch fixtures"
     });
   }
 });

@@ -8,11 +8,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 app.get("/", (req, res) => {
-  res.json({
-    app: "MATCHDAY PRO AI",
-    status: "Running",
-    message: "Football Prediction Backend is Live!"
-  });
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 const PORT = process.env.PORT || 3000;

@@ -150,11 +150,13 @@ async function loadPrediction() {
 
         const data = await response.json();
 
-        document.getElementById("homeTeam").innerHTML =
-            data.home || "Home";
+        const match = data.events[0];
 
-        document.getElementById("awayTeam").innerHTML =
-            data.away || "Away";
+document.getElementById("homeTeam").innerHTML =
+    match.strHomeTeam;
+
+document.getElementById("awayTeam").innerHTML =
+    match.strAwayTeam;
 
         document.getElementById("stats").innerHTML = `
 

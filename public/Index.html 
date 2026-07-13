@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATCHDAY PRO AI</title>
+
+<style>
+
+body{
+margin:0;
+padding:0;
+font-family:Arial,sans-serif;
+background:#0d1117;
+color:white;
+}
+
+header{
+background:#161b22;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+color:#00ff88;
+}
+
+.container{
+padding:15px;
+}
+
+.card{
+background:#161b22;
+border-radius:12px;
+padding:15px;
+margin-bottom:15px;
+box-shadow:0 0 10px rgba(0,255,100,.2);
+}
+
+.match{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:18px;
+margin-bottom:15px;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#00c853;
+border:none;
+border-radius:8px;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+button:hover{
+background:#00e676;
+}
+
+.stat{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+border-bottom:1px solid #333;
+}
+
+.prediction{
+font-size:20px;
+font-weight:bold;
+color:#00ff88;
+text-align:center;
+margin-top:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+MATCHDAY PRO AI
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<div class="match">
+
+<span id="homeTeam">
+Loading...
+</span>
+
+vs
+
+<span id="awayTeam">
+Loading...
+</span>
+
+</div>
+
+<button onclick="loadPrediction()">
+
+Generate AI Prediction
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Statistics</h3>
+
+<div id="stats">
+
+Loading...
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Prediction</h3>
+
+<div class="prediction" id="prediction">
+
+Waiting...
+
+</div>
+
+</div>
+
+</div>
+
+<script>const API_URL = "https://matchday-pro-ai.onrender.com";
+
+async function loadPrediction() {
+
+    document.getElementById("prediction").innerHTML = "Loading...";
+
+    try {
+
+        const response = await fetch(API_URL + "/fixtures");
+
+        const data = await response.json();
+
+        const match = data.events[0];
+
+document.getElementById("homeTeam").innerHTML =
+    match.strHomeTeam;
+
+document.getElementById("awayTeam").innerHTML =
+    match.strAwayTeam;
+
+        document.getElementById("stats").innerHTML = `
+
+        <div class="stat">
+            <span>Home Win Rate</span>
+            <span>${data.homeWinRate || "-"}%</span>
+        </div>
+
+        <div class="stat">
+            <span>Away Win Rate</span>
+            <span>${data.awayWinRate || "-"}%</span>
+        </div>
+
+        <div class="stat">
+            <span>xG</span>
+            <span>${data.xg || "-"}</span>
+        </div>
+
+        <div class="stat">
+            <span>xGA</span>
+            <span>${data.xga || "-"}</span>
+        </div>
+
+        <div class="stat">
+            <span>BTTS</span>
+            <span>${data.btts || "-"}</span>
+        </div>
+
+        <div class="stat">
+            <span>Clean Sheet</span>
+            <span>${data.cleanSheet || "-"}</span>
+        </div>
+
+        `;
+
+        document.getElementById("prediction").innerHTML =
+            data.prediction || "No prediction";
+
+    } catch (e) {
+
+        document.getElementById("prediction").innerHTML =
+            "Server Offline";
+
+    }
+
+}window.onload = function () {
+    loadPrediction();
+    setInterval(loadPrediction, 60000);
+};
+</script>
+
+</body>
+</html>
